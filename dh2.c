@@ -4,13 +4,30 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdio.h>
+#include <math.h>
 
 uint64_t powmod(uint64_t g, uint64_t c, uint64_t p) {
+
+	uint64_t test;	
+	uint64_t n = g;
 	
-	uint64_t z = g ^ c;
-	//printf("%"PRIx64, z );
-	//printf("\n");
-	return z % p;	
+	for(test = 1; c; c >>= 1)
+    {
+        if (c & 1)
+            test = ((test % p) * (n % p)) % p;
+        n = ((n % p) * (n % p)) % p;
+    }
+
+    return test;
+
+//    for (i = 0; i < c; i++){
+//    	
+//    	
+//    	
+//    	g *= c;
+//	}
+//        
+//	return g % p;
 }
 
 int main() {
@@ -27,25 +44,25 @@ int main() {
  	printf("\n");
  	//printf("%"SCNu64, g);
  
- 	uint64_t a, b, Alice, Bob;
+ 	uint64_t a, b, Alice, Bob = 0;
  	
- 	a = rand();
+ 	a = 1804289383;
 	printf("Valor aleatorio para Alice : ");	
-	printf("a =%" PRIx64 "\n", a);
+	printf("a = %" PRIx64 "\n", a);
 	
 	Alice = powmod(g, a, p);
 	
 	printf("Alice : ");	
-	printf("a =%" PRIx64 "\n", Alice);
+	printf("%" PRIx64 "\n", Alice);
 	
-	b = rand();
+	b = 846930886;
 	printf("Valor aleatorio para Bob : ");	
-	printf("b =%" PRIx64 "\n", b);
+	printf("b = %" PRIx64 "\n", b);
 	
 	Bob = powmod(g, b, p);
 	
 	printf("Bob : ");	
-	printf("a =%" PRIx64 "\n", Bob);
+	printf("%" PRIx64 "\n", Bob);
 	
 	uint64_t segredoAlice, segredoBob;
 	
